@@ -1,13 +1,14 @@
 ﻿#include "hhgeometry.hpp"
 
 #include <cmath>
-#include <iomanip>
 #include <functional>
+#include <iomanip>
 #include <iostream>
 #include <limits>
 
 using namespace GEO;
 
+// finds the distance (mod) between 2 points
 auto
 distanse(Point p1, Point p2)
 {
@@ -15,34 +16,120 @@ distanse(Point p1, Point p2)
                      + std::pow(p2.z() - p1.z(), 2));
 }
 
+// finds the mod of vector
 auto
 mod(Vector vec)
 {
     return distanse(vec.tail(), vec.head());
 }
 
+// find the 1st derivative of function c(t)
+// which includes x(t) and y(t)
 auto
 derivative1st(std::function<Point(param_type)> func, param_type t)
 {
-    bool                        is_ok{true};
-    decltype(deriv_type::first) res{};
-    try
+    //
+    // FOR X
+    //
+
+    // ########################################
+    // find limit of x(t) from the LEFT side :
+    // ########################################
+    auto l_dt_x{std::numeric_limits<param_type>::epsilon()};
+    auto l_dx{func(t + l_dt_x).x() - func(t).x()};
+
+    while(l_dx == 0.0f && l_dt_x < 1.0f)  // find dt for x (aproximately)
     {
-        auto epsilon{std::numeric_limits<param_type>::epsilon()};
-        auto dy{func(t + epsilon).y() - func(t).y()};
-        auto dx{func(t + epsilon).x() - func(t).x()};
-        for(auto d{epsilon}; dx == 0.0f; d +=epsilon)
-        {
-            dy = func(t + d).y() - func(t).y();
-            dx = func(t + d).x() - func(t).x();
-        }
-        res = dy / dx;
+        l_dt_x *= 10.0f;
+        l_dx    = func(t + l_dt_x).x() - func(t).x();
     }
-    catch(const std::exception& e)
+
+    auto part_l_dt_x{l_dt_x / 10.0f};
+    while(l_dx != 0.0f && l_dt_x > 0.0f)  // find dt for x (more precisely)
     {
-        is_ok = false;
+        l_dt_x -= part_l_dt_x;
+        l_dx    = func(t + l_dt_x).x() - func(t).x();
     }
-    return deriv_type{res, is_ok};
+    l_dt_x += part_l_dt_x;
+    l_dx    = func(t + l_dt_x).x() - func(t).x();
+    // ########################################
+    // find limit of x(t) from the RIGHT side :
+    // ########################################
+    auto r_dt_x{std::numeric_limits<param_type>::epsilon()};
+    auto r_dx{func(t).x() - func(t - r_dt_x).x()};
+
+    while(r_dx == 0.0f && r_dt_x < 1.0f)  // find dt for x (aproximately)
+    {
+        r_dt_x *= 10.0f;
+        r_dx    = func(t).x() - func(t - r_dt_x).x();
+    }
+
+    auto part_r_dt_x{r_dt_x / 10.0f};
+    while(r_dx != 0.0f && r_dt_x > 0.0f)  // find dt for x (more precisely)
+    {
+        r_dt_x -= part_r_dt_x;
+        r_dx    = func(t).x() - func(t - r_dt_x).x();
+    }
+    r_dt_x += part_r_dt_x;
+    r_dx    = func(t).x() - func(t - r_dt_x).x();
+
+    //
+    // FOR Y
+    //
+
+    // ########################################
+    // find limit of y(t) from the LEFT side :
+    // ########################################
+    auto l_dt_y{std::numeric_limits<param_type>::epsilon()};
+    auto l_dy{func(t + l_dt_y).y() - func(t).y()};
+
+    while(l_dy == 0.0f && l_dt_y < 1.0f)  // find dt for y (aproximately)
+    {
+        l_dt_y *= 10.0f;
+        l_dy    = func(t + l_dt_y).y() - func(t).y();
+    }
+
+    auto part_l_dt_y{l_dt_y / 10.0f};
+    while(l_dy != 0.0f && l_dt_y > 0.0f)  // find dt for y (more precisely)
+    {
+        l_dt_y -= part_l_dt_y;
+        l_dy    = func(t + l_dt_y).y() - func(t).y();
+    }
+    l_dt_y += part_l_dt_y;
+    l_dy    = func(t + l_dt_y).y() - func(t).y();
+    // ########################################
+    // find limit of y(t) from the RIGHT side :
+    // ########################################
+    auto r_dt_y{std::numeric_limits<param_type>::epsilon()};
+    auto r_dy{func(t).y() - func(t - r_dt_y).y()};
+
+    while(r_dy == 0.0f && r_dt_y < 1.0f)  // find dt for y (aproximately)
+    {
+        r_dt_y *= 10.0f;
+        r_dy    = func(t).y() - func(t - r_dt_y).y();
+    }
+
+    auto part_r_dt_y{r_dt_y / 10.0f};
+    while(r_dy != 0.0f && r_dt_y > 0.0f)  // find dt for y (more precisely)
+    {
+        r_dt_y -= part_r_dt_y;
+        r_dy    = func(t).y() - func(t - r_dt_y).y();
+    }
+    r_dt_y += part_r_dt_y;
+    r_dy    = func(t).y() - func(t - r_dt_y).y();
+    std::cout << "l_dx " << l_dx << " r_dx " << r_dx << std::endl;
+    std::cout << "l_dy " << l_dy << " r_dy " << r_dy << std::endl;
+    deriv_type             res{};  // default is std::nullopt(no derivation)
+    deriv_type::value_type aproximation{
+        1e-5};                     // acceptable difference between left and right limits
+
+    if(std::abs(l_dy - r_dy) < aproximation && abs(l_dx - r_dx) < aproximation)
+    {
+        auto avrg_dx{(l_dx + r_dx) / 2.0f};
+        auto avrg_dy{(l_dy + r_dy) / 2.0f};
+        res = avrg_dy / avrg_dx;
+    }
+    return res;
 }
 
 Point

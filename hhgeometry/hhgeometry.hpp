@@ -1,14 +1,13 @@
 ﻿
+#include <iostream>
 #include <optional>
 #include <utility>
-#include <iostream>
-
 
 namespace GEO
 {
-typedef long double                  coord_type;  // type of coordinate axes step
-typedef long double                  param_type;  // type of parametr in c(t) function
-typedef std::pair<long double, bool> deriv_type;  // result and success flag
+typedef long double               coord_type;  // type of coordinate axes step
+typedef long double               param_type;  // type of parametr in c(t) function
+typedef std::optional<param_type> deriv_type;  // result and success flag
 
 // auxiliary class 1
 class Point
@@ -123,7 +122,7 @@ private:
     coord_type _step{};
 
 public:
-    Helix(Vector radius, double step)
+    Helix(Vector radius, coord_type step)
         : _radius{radius},
           _step{step} {};
 
