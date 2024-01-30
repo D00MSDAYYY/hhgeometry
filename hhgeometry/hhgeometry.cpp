@@ -117,8 +117,8 @@ derivative1st(std::function<Point(param_type)> func, param_type t)
     }
     r_dt_y += part_r_dt_y;
     r_dy    = func(t).y() - func(t - r_dt_y).y();
-    std::cout << "l_dx " << l_dx << " r_dx " << r_dx << std::endl;
-    std::cout << "l_dy " << l_dy << " r_dy " << r_dy << std::endl;
+    // std::cout << "l_dx " << l_dx << " r_dx " << r_dx << std::endl;
+    // std::cout << "l_dy " << l_dy << " r_dy " << r_dy << std::endl;
     deriv_type             res{};  // default is std::nullopt(no derivation)
     deriv_type::value_type aproximation{
         1e-5};                     // acceptable difference between left and right limits
@@ -219,3 +219,5 @@ Helix::get1stDerivative(const param_type t)
     return derivative1st([this](param_type arg) { return helix_func(arg, _radius, _step); },
                          t);
 }
+
+GEO::Vector::operator coord_type() { return mod(*this); }

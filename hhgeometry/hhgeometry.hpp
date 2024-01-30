@@ -1,5 +1,6 @@
 ﻿
 #include <iostream>
+#include <memory>
 #include <optional>
 #include <utility>
 
@@ -52,6 +53,8 @@ public:
     Vector&
     operator=(const Vector&) = default;
 
+    operator coord_type(); // returns mod of vector
+
     // clang-format off
     Point&
     tail() {return _tail;}
@@ -65,6 +68,7 @@ public:
 class Object
 {
 public:
+    typedef std::shared_ptr<Object> Ptr;
     Object()              = default;
     Object(const Object&) = default;
     Object&
@@ -86,6 +90,8 @@ public:
     Circle(const Circle&) = default;
     Circle&
     operator=(const Circle&) = default;
+
+    operator Vector() { return _radius; };
 
     Point
     get3DPoint(const param_type t) override;
