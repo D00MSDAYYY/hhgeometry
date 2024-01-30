@@ -34,6 +34,8 @@ main()
     Point p2{10, 0, 0};
     Point p3{0, 30, 0};
 
+   
+
     std::cout << "\n####################################################### "
                  "CIRCLE: ###########################################";
     std::cout << "\n########################################################"
@@ -41,6 +43,7 @@ main()
     Circle circle{
         Vector{p1, p2}
     };
+
     std::cout << "\n############## 3D POINTS:\n";
     for(coord_type path{0.0}; path < 4; path += 1)
         std::cout << "rad = " << path << "\t" << circle.get3DPoint(path) << "\t|\t"

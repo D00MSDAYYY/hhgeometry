@@ -108,7 +108,6 @@ derivative1st(std::function<Point(param_type)> func, param_type t)
         r_dt_y *= 10.0f;
         r_dy    = func(t).y() - func(t - r_dt_y).y();
     }
-
     auto part_r_dt_y{r_dt_y / 10.0f};
     while(r_dy != 0.0f && r_dt_y > 0.0f)  // find dt for y (more precisely)
     {
@@ -119,15 +118,23 @@ derivative1st(std::function<Point(param_type)> func, param_type t)
     r_dy    = func(t).y() - func(t - r_dt_y).y();
     // std::cout << "l_dx " << l_dx << " r_dx " << r_dx << std::endl;
     // std::cout << "l_dy " << l_dy << " r_dy " << r_dy << std::endl;
-    deriv_type             res{};  // default is std::nullopt(no derivation)
+    std::optional<Vector>  res{};  // default is std::nullopt(no derivative)
     deriv_type::value_type aproximation{
         1e-5};                     // acceptable difference between left and right limits
-
     if(std::abs(l_dy - r_dy) < aproximation && abs(l_dx - r_dx) < aproximation)
     {
         auto avrg_dx{(l_dx + r_dx) / 2.0f};
+        auto avrg_dt_x{(l_dt_x + r_dt_x) / 2.0f};
+        auto deriv_x{avrg_dx / avrg_dt_x};
+
         auto avrg_dy{(l_dy + r_dy) / 2.0f};
-        res = avrg_dy / avrg_dx;
+        auto avrg_dt_y{(l_dt_y + r_dt_y) / 2.0f};
+        auto deriv_y{avrg_dy / avrg_dt_y};
+        
+        res = {
+            {0,       0,       0},
+            {deriv_x, deriv_y, 0}  // derivative like 3D vector
+        };
     }
     return res;
 }
@@ -153,7 +160,7 @@ Circle::get3DPoint(const param_type t)
     return circle_func(t, _radius);
 }
 
-deriv_type
+std::optional<Vector>
 Circle::get1stDerivative(const param_type t)
 {
     return derivative1st([this](param_type arg) { return circle_func(arg, _radius); }, t);
@@ -189,7 +196,7 @@ Ellipse::get3DPoint(const param_type t)
     return ellipse_func(t, _radius_x, _radius_y, _center);
 }
 
-deriv_type
+std::optional<Vector>
 Ellipse::get1stDerivative(const param_type t)
 {
     return derivative1st([this](param_type arg)
@@ -213,7 +220,7 @@ Helix::get3DPoint(const param_type t)
     return helix_func(t, _radius, _step);
 }
 
-deriv_type
+std::optional<Vector>
 Helix::get1stDerivative(const param_type t)
 {
     return derivative1st([this](param_type arg) { return helix_func(arg, _radius, _step); },

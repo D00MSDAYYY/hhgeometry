@@ -76,7 +76,7 @@ public:
 
     virtual Point
     get3DPoint(const param_type t) = 0;
-    virtual deriv_type
+    virtual std::optional<Vector>
     get1stDerivative(const param_type t) = 0;
 };
 
@@ -96,7 +96,7 @@ public:
     Point
     get3DPoint(const param_type t) override;
 
-    deriv_type
+    std::optional<Vector>
     get1stDerivative(const param_type t) override;
 };
 
@@ -117,7 +117,7 @@ public:
     Point
     get3DPoint(const param_type t) override;
 
-    deriv_type
+    std::optional<Vector>
     get1stDerivative(const param_type t) override;
 };
 
@@ -135,7 +135,7 @@ public:
     Point
     get3DPoint(const param_type t) override;
 
-    deriv_type
+    std::optional<Vector>
     get1stDerivative(const param_type t) override;
 };
 }  // namespace GEO
