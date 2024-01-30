@@ -9,7 +9,7 @@
 using namespace GEO;
 
 // finds the distance (mod) between 2 points
-auto
+static auto
 distanse(Point p1, Point p2)
 {
     return std::sqrt(std::pow(p2.x() - p1.x(), 2) + std::pow(p2.y() - p1.y(), 2)
@@ -17,7 +17,7 @@ distanse(Point p1, Point p2)
 }
 
 // finds the mod of vector
-auto
+static auto
 mod(Vector vec)
 {
     return distanse(vec.tail(), vec.head());
@@ -72,11 +72,9 @@ derivative1st(std::function<Point(param_type)> func, param_type t)
     }
     r_dt_x += part_r_dt_x;
     r_dx    = func(t).x() - func(t - r_dt_x).x();
-
     //
     // FOR Y
     //
-
     // ########################################
     // find limit of y(t) from the LEFT side :
     // ########################################
@@ -88,7 +86,6 @@ derivative1st(std::function<Point(param_type)> func, param_type t)
         l_dt_y *= 10.0f;
         l_dy    = func(t + l_dt_y).y() - func(t).y();
     }
-
     auto part_l_dt_y{l_dt_y / 10.0f};
     while(l_dy != 0.0f && l_dt_y > 0.0f)  // find dt for y (more precisely)
     {
@@ -130,7 +127,6 @@ derivative1st(std::function<Point(param_type)> func, param_type t)
         auto avrg_dy{(l_dy + r_dy) / 2.0f};
         auto avrg_dt_y{(l_dt_y + r_dt_y) / 2.0f};
         auto deriv_y{avrg_dy / avrg_dt_y};
-        
         res = {
             {0,       0,       0},
             {deriv_x, deriv_y, 0}  // derivative like 3D vector
@@ -139,7 +135,7 @@ derivative1st(std::function<Point(param_type)> func, param_type t)
     return res;
 }
 
-Point
+static Point
 circle_func(param_type t, Vector radius)
 {
     auto radius_mod{mod(radius)};
@@ -166,7 +162,7 @@ Circle::get1stDerivative(const param_type t)
     return derivative1st([this](param_type arg) { return circle_func(arg, _radius); }, t);
 }
 
-Point
+static Point
 ellipse_func(param_type t, Vector radius_x, Vector radius_y, Point center)
 {
     auto x_mod{mod(radius_x)};
@@ -184,10 +180,7 @@ Ellipse::Ellipse(Vector rad_x, Vector rad_y, std::optional<Point> center)
     _radius_y.head().x() = _radius_y.tail().x();  //!
     _radius_y.head().y() = rad_y.head().y();
 
-    if(center)
-        _center = *center;
-    else
-        _center = _radius_x.tail();
+    _center              = ((center) ? *center : _radius_x.tail());
 }
 
 Point
@@ -204,7 +197,7 @@ Ellipse::get1stDerivative(const param_type t)
                          t);
 }
 
-Point
+static Point
 helix_func(param_type t, Vector radius, coord_type step)
 {
     auto radius_mod{mod(radius)};

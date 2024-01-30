@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <chrono>
-#include <cmath>
 #include <iomanip>
 #include <iostream>
 #include <numbers>
@@ -25,19 +24,19 @@ std::ostream&
 operator<<(std::ostream& os, const Vector& cv)
 {
     auto v{cv};
-    os << "tail : x = " << v.tail().x() << "\t y = " << v.tail().y()
-       << "\t z = " << v.tail().z() << "\nhead : x = " << v.head().x()
-       << "\t y = " << v.head().y() << "\t z = " << v.head().z() << "\n";
+    os << "x = " << v.tail().x() << "\t y = " << v.tail().y() << "\t z = " << v.tail().z()
+       << "|\t x = " << v.head().x() << "\t y = " << v.head().y() << "\t z = " << v.head().z()
+       << "\n";
     return os;
 }
 
 int
 main()
 {
-    auto                       PI{std::numbers::pi_v<param_type>};
+    auto                                       PI{std::numbers::pi_v<param_type>};  //
 
-    std::default_random_engine dre{
-        uint32_t(std::chrono::system_clock::now().time_since_epoch().count())};
+    std::default_random_engine                 dre{uint32_t(
+        std::chrono::system_clock::now().time_since_epoch().count())};  // for randomization
     std::uniform_real_distribution<coord_type> distr_real(0, 100.0f);
     std::uniform_int_distribution<int>         distr_int(1, 3);
 
@@ -79,7 +78,7 @@ main()
 
     for(auto point{PI / 4.0f}; auto& object: geo_objects)
         std::cout << object->get3DPoint(point)
-                  << "\t derivative = " << *object->get1stDerivative(point) << "\n";
+                  << "\t derivative = " << *object->get1stDerivative(point);
     std::vector<std::reference_wrapper<Object::Ptr>> ref_cirles{};
 
     for(auto& object: geo_objects)
@@ -100,12 +99,14 @@ main()
                   return v_l < v_r;
               });
 
+    coord_type sum{0};
 
-              for(auto& elem : ref_cirles)
-              {
-                  auto   circle_l{*static_cast<Circle*>(elem.get().get())};
-                  Vector v_l{circle_l};
-
-                  std::cout << ">> " << coord_type(v_l) << std::endl;
-              }
+    for(auto& elem: ref_cirles)
+    {
+        auto   circle_l{*static_cast<Circle*>(elem.get().get())};
+        Vector v_l{circle_l};
+        sum += coord_type(v_l);
+        std::cout << ">> " << coord_type(v_l) << std::endl;
+    }
+    std::cout << "sum = " << sum;
 }

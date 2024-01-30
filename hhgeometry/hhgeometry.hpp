@@ -10,7 +10,7 @@ typedef long double               coord_type;  // type of coordinate axes step
 typedef long double               param_type;  // type of parametr in c(t) function
 typedef std::optional<param_type> deriv_type;  // result and success flag
 
-// auxiliary class 1
+// auxiliary Point class
 class Point
 {
 private:
@@ -38,7 +38,7 @@ public:
     // clang-format on
 };
 
-// auxiliary class 2
+// auxiliary Vector class
 class Vector
 {
 private:
@@ -53,7 +53,7 @@ public:
     Vector&
     operator=(const Vector&) = default;
 
-    operator coord_type(); // returns mod of vector
+    operator coord_type();  // returns mod of vector
 
     // clang-format off
     Point&
@@ -91,7 +91,7 @@ public:
     Circle&
     operator=(const Circle&) = default;
 
-    operator Vector() { return _radius; };
+    operator Vector() { return _radius; }; 
 
     Point
     get3DPoint(const param_type t) override;
