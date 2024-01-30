@@ -79,14 +79,13 @@ main()
     for(auto point{PI / 4.0f}; auto& object: geo_objects)
         std::cout << object->get3DPoint(point)
                   << "\t derivative = " << *object->get1stDerivative(point);
-    std::vector<std::reference_wrapper<Object::Ptr>> ref_cirles{};
 
+    std::vector<std::reference_wrapper<Object::Ptr>> ref_cirles{};
     for(auto& object: geo_objects)
     {
         auto is_circle{dynamic_cast<Circle*>(object.get())};
         if(is_circle) ref_cirles.push_back(object);
     }
-
     std::sort(ref_cirles.begin(),
               ref_cirles.end(),
               [](const auto& l, const auto& r)

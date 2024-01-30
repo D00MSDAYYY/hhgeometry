@@ -27,6 +27,8 @@ public:
     Point&
     operator=(const Point&) = default;
 
+    ~Point()                = default;
+
     // clang-format off
     auto&
     x() {return _x;};
@@ -52,7 +54,7 @@ public:
     Vector(const Vector&) = default;
     Vector&
     operator=(const Vector&) = default;
-
+    ~Vector()                = default;
     operator coord_type();  // returns mod of vector
 
     // clang-format off
@@ -74,7 +76,7 @@ public:
     Object&
     operator=(const Object&) = default;
 
-    virtual ~Object() {}
+    virtual ~Object()        = default;
 
     virtual Point
     get3DPoint(const param_type t) = 0;
@@ -93,7 +95,7 @@ public:
     Circle&
     operator=(const Circle&) = default;
 
-    ~Circle() {}
+    ~Circle()                = default;
 
     operator Vector() { return _radius; };
 
@@ -117,8 +119,7 @@ public:
     Ellipse(const Ellipse&) = default;
     Ellipse&
     operator=(const Ellipse&) = default;
-
-    ~Ellipse() {}
+    ~Ellipse()                = default;
 
     Point
     get3DPoint(const param_type t) override;
@@ -141,7 +142,7 @@ public:
     Helix&
     operator=(const Helix&) = default;
 
-    ~Helix() {}
+    ~Helix()                = default;
 
     Point
     get3DPoint(const param_type t) override;
