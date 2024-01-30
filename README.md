@@ -1,5 +1,5 @@
 
-build hhmain (hh.ru task) - set -DBUILD_HHTEST=OFF
+build hhmain (hh.ru task) - set -DBUILD_HHTEST=OFF \
 build my own test - set -DBUILD_HHTEST=ON
 
 #### Build & Run
