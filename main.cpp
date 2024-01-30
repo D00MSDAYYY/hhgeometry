@@ -14,8 +14,8 @@ std::ostream&
 operator<<(std::ostream& os, const Point& cp)
 {
     auto p{cp};
-    os << "x = " << std::setw(4) << std::setprecision(5) << p.x() << "\t y = " << std::setw(4)
-       << std::setprecision(5) << p.y() << "\t z = " << std::setw(4) << std::setprecision(5)
+    os << "x = " << std::setw(4) << std::setprecision(3) << p.x() << "\t y = " << std::setw(4)
+       << std::setprecision(3) << p.y() << "\t z = " << std::setw(4) << std::setprecision(3)
        << p.z();
     return os;
 }
@@ -24,9 +24,7 @@ std::ostream&
 operator<<(std::ostream& os, const Vector& cv)
 {
     auto v{cv};
-    os << "x = " << v.tail().x() << "\t y = " << v.tail().y() << "\t z = " << v.tail().z()
-       << "|\t x = " << v.head().x() << "\t y = " << v.head().y() << "\t z = " << v.head().z()
-       << "\n";
+    os << "[ " << v.tail() << " | " << v.head() << " ]";
     return os;
 }
 

@@ -10,8 +10,8 @@ std::ostream&
 operator<<(std::ostream& os, const Point& cp)
 {
     auto p{cp};
-    os << "x = " << std::setw(4) << std::setprecision(5) << p.x() << "\t y = " << std::setw(4)
-       << std::setprecision(5) << p.y() << "\t z = " << std::setw(4) << std::setprecision(5)
+    os << "x = " << std::setw(4) << std::setprecision(3) << p.x() << "\t y = " << std::setw(4)
+       << std::setprecision(3) << p.y() << "\t z = " << std::setw(4) << std::setprecision(3)
        << p.z();
     return os;
 }
@@ -20,9 +20,7 @@ std::ostream&
 operator<<(std::ostream& os, const Vector& cv)
 {
     auto v{cv};
-    os << "tail : x = " << v.tail().x() << "\t y = " << v.tail().y()
-       << "\t z = " << v.tail().z() << "\nhead : x = " << v.head().x()
-       << "\t y = " << v.head().y() << "\t z = " << v.head().z() << "\n";
+    os << "[ " << v.tail() << " | " << v.head() << " ]";
     return os;
 }
 
@@ -51,12 +49,12 @@ main()
 
     std::cout << "\n############## DERIVATIVES:\n";
     for(coord_type path{0.0}; path < 4; path += 1)
-        std::cout << "rad = " << std::setw(4) << std::setprecision(5) << path << "\t\t"
-                  << std::setw(4) << std::setprecision(5) << *circle.get1stDerivative(path)
-                  << "\t|\t"
-                  << "rad + 2*PI = " << std::setw(4) << std::setprecision(5) << path + 2.0 * PI
-                  << std::setw(4) << std::setprecision(5) << "\t"
-                  << *circle.get1stDerivative(path + 2.0 * PI) << std::endl;
+        std::cout << "rad = " << std::setw(4) << std::setprecision(3) << path << "\t\t"
+                  << std::setw(4) << std::setprecision(3) << *circle.get1stDerivative(path)
+                  << "\n"
+                  << "rad + 2*PI = " << std::setw(4) << std::setprecision(3) << path + 2.0 * PI
+                  << std::setw(4) << std::setprecision(3) << "\t"
+                  << *circle.get1stDerivative(path + 2.0 * PI) << "\n";
 
     std::cout << "\n####################################################### ELLIPSE: "
                  "###########################################";
@@ -74,12 +72,12 @@ main()
 
     std::cout << "\n############## DERIVATIVES:\n";
     for(coord_type path{0.0}; path < 4; path += 1)
-        std::cout << "rad = " << std::setw(4) << std::setprecision(5) << path << "\t\t"
-                  << std::setw(4) << std::setprecision(5) << *ellipse.get1stDerivative(path)
-                  << "\t|\t"
-                  << "rad + 2*PI = " << std::setw(4) << std::setprecision(5) << path + 2.0 * PI
-                  << std::setw(4) << std::setprecision(5) << "\t"
-                  << *ellipse.get1stDerivative(path + 2.0 * PI) << std::endl;
+        std::cout << "rad = " << std::setw(4) << std::setprecision(3) << path << "\t\t"
+                  << std::setw(4) << std::setprecision(3) << *ellipse.get1stDerivative(path)
+                  << "\n"
+                  << "rad + 2*PI = " << std::setw(4) << std::setprecision(3) << path + 2.0 * PI
+                  << std::setw(4) << std::setprecision(3) << "\t"
+                  << *ellipse.get1stDerivative(path + 2.0 * PI) << "\n";
 
     std::cout << "\n####################################################### HELIX: "
                  "############################################";
@@ -98,10 +96,10 @@ main()
 
     std::cout << "\n############## DERIVATIVES:\n";
     for(coord_type path{0.0}; path < 4; path += 1)
-        std::cout << "rad = " << std::setw(4) << std::setprecision(5) << path << "\t\t"
-                  << std::setw(4) << std::setprecision(5) << *helix.get1stDerivative(path)
-                  << "\t|\t"
-                  << "rad + 2*PI = " << std::setw(4) << std::setprecision(5) << path + 2.0 * PI
-                  << std::setw(4) << std::setprecision(5) << "\t"
+        std::cout << "rad = " << std::setw(4) << std::setprecision(3) << path << "\t\t"
+                  << std::setw(4) << std::setprecision(3) << *helix.get1stDerivative(path)
+                  << "\n"
+                  << "rad + 2*PI = " << std::setw(4) << std::setprecision(3) << path + 2.0 * PI
+                  << std::setw(4) << std::setprecision(3) << "\t"
                   << *helix.get1stDerivative(path + 2.0 * PI) << "\n";
 }
