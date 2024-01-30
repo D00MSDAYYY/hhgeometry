@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(hhgeometry)
 
-set(BUILD_HHTEST ON)  #<===============================================
+set(BUILD_HHTEST OFF)  #<===============================================
 
 if(BUILD_HHTEST)
   add_executable(hhtest)
