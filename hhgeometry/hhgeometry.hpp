@@ -74,6 +74,8 @@ public:
     Object&
     operator=(const Object&) = default;
 
+    virtual ~Object() {}
+
     virtual Point
     get3DPoint(const param_type t) = 0;
     virtual std::optional<Vector>
@@ -91,7 +93,9 @@ public:
     Circle&
     operator=(const Circle&) = default;
 
-    operator Vector() { return _radius; }; 
+    ~Circle() {}
+
+    operator Vector() { return _radius; };
 
     Point
     get3DPoint(const param_type t) override;
@@ -114,6 +118,8 @@ public:
     Ellipse&
     operator=(const Ellipse&) = default;
 
+    ~Ellipse() {}
+
     Point
     get3DPoint(const param_type t) override;
 
@@ -131,6 +137,11 @@ public:
     Helix(Vector radius, coord_type step)
         : _radius{radius},
           _step{step} {};
+    Helix(const Helix&) = default;
+    Helix&
+    operator=(const Helix&) = default;
+
+    ~Helix() {}
 
     Point
     get3DPoint(const param_type t) override;

@@ -91,19 +91,16 @@ main()
               ref_cirles.end(),
               [](const auto& l, const auto& r)
               {
-                  auto   circle_l{*static_cast<Circle*>(l.get().get())};
+                  auto   circle_l{*std::dynamic_pointer_cast<Circle>(l.get())};
                   Vector v_l{circle_l};
-                  auto   circle_r{*static_cast<Circle*>(r.get().get())};
+                  auto   circle_r{*std::dynamic_pointer_cast<Circle>(r.get())};
                   Vector v_r{circle_r};
-
                   return v_l < v_r;
               });
-
     coord_type sum{0};
-
     for(auto& elem: ref_cirles)
     {
-        auto   circle_l{*static_cast<Circle*>(elem.get().get())};
+        auto   circle_l{*std::dynamic_pointer_cast<Circle>(elem.get())};
         Vector v_l{circle_l};
         sum += coord_type(v_l);
         std::cout << ">> " << coord_type(v_l) << std::endl;
