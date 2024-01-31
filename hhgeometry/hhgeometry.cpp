@@ -159,7 +159,7 @@ Circle::get3DPoint(const param_type t)
 std::optional<Vector>
 Circle::get1stDerivative(const param_type t)
 {
-    return derivative1st([this](param_type arg) { return circle_func(arg, _radius); }, t);
+    return derivative1st(std::bind(circle_func,std::placeholders::_1, _radius),t);
 }
 
 static Point
@@ -192,9 +192,7 @@ Ellipse::get3DPoint(const param_type t)
 std::optional<Vector>
 Ellipse::get1stDerivative(const param_type t)
 {
-    return derivative1st([this](param_type arg)
-                         { return ellipse_func(arg, _radius_x, _radius_y, _center); },
-                         t);
+    return derivative1st(std::bind(ellipse_func, std::placeholders::_1, _radius_x, _radius_y, _center), t);
 }
 
 static Point
@@ -216,8 +214,7 @@ Helix::get3DPoint(const param_type t)
 std::optional<Vector>
 Helix::get1stDerivative(const param_type t)
 {
-    return derivative1st([this](param_type arg) { return helix_func(arg, _radius, _step); },
-                         t);
+    return derivative1st(std::bind(helix_func, std::placeholders::_1, _radius,_step), t);
 }
 
 GEO::Vector::operator coord_type() { return mod(*this); }
