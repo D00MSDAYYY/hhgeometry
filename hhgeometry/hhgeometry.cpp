@@ -25,7 +25,7 @@ mod(Vector vec)
 
 // find the 1st derivative of function c(t)
 // which includes x(t) and y(t)
-auto
+static auto
 derivative1st(std::function<Point(param_type)> func, param_type t)
 {
     //
